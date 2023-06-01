@@ -132,6 +132,7 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.Mathematics.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.VisualScripting.State.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Core.dll
+--root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.Burst.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.2D.Animation.Runtime.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.TextMeshPro.dll
@@ -142,7 +143,6 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.2D.IK.Runtime.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.2D.Tilemap.Extras.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.InternalAPIEngineBridge.001.dll
---root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --assembly-folder=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\
 --pdb-search-paths=Temp/ManagedSymbols/
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10
@@ -283,6 +283,7 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.Mathematics.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.VisualScripting.State.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Core.dll
+--root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.Burst.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.2D.Animation.Runtime.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.TextMeshPro.dll
@@ -293,7 +294,6 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.2D.IK.Runtime.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.2D.Tilemap.Extras.dll
 --root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Unity.InternalAPIEngineBridge.001.dll
---root-assembly=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --assembly-folder=C:\Users\Matthew\Documents\GitHub\Super-AutoCrats\Temp\StagingArea\Data\Managed\
 --pdb-search-paths=Temp/ManagedSymbols/
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10

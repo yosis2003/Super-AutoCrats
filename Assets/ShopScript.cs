@@ -28,35 +28,66 @@ public class Leader
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = visible;
-
-            //Realistically this should not be part of things, this is initializing
-            //the position of the sprite and is a quick fix that should be replaced
-            //by a function that does this independantly of displaying the sprite.
-            leaderRepresentative.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
         }
+    }
+
+    public GameObject getLeaderRep()
+    {
+        return leaderRepresentative;
     }
 }
 
 public class ShopScript : MonoBehaviour
 {
-    List<Leader> team;
-    List<Leader> shop;
-    GameObject Obama;
+    List<Leader> teamList = new List<Leader>();
+    List<Leader> shopList = new List<Leader>();
     List<Leader> completeList = new List<Leader>();
 
+    GameObject Obama;
+    GameObject Xi;
+    GameObject Trudeau;
+
+    
     Leader Obamna;
+    Leader Supreme_Emperor;
+    Leader CanadaBoi;
 
     void Start()
     {
+        // Really what we want to do here is eventually
+        // replace the following lines of code with a function that
+        // randomly selects from complete list to then run these
+        // functions on the elements selected
         Obama = GameObject.Find("Obama");
+        Xi = GameObject.Find("Xi");
+        Trudeau = GameObject.Find("Trudeau");
+
+        // Really what we want to do here is eventually
+        // replace the following lines of code with a function that
+        // randomly selects from complete list to then run these
+        // functions on the elements selected
         Obamna = new Leader("Obama", Obama, 10, 7);
+        Supreme_Emperor = new Leader("Xi", Xi, 6, 12);
+        CanadaBoi = new Leader("Trudeau", Trudeau, 4, 12);
 
-        completeList.Add(Obamna);
+        // Really what we want to do here is eventually
+        // replace the following lines of code with a function that
+        // randomly selects from complete list to then run these
+        // functions on the elements selected
+        shopList.Add(Obamna);
+        shopList.Add(Supreme_Emperor);
+        shopList.Add(CanadaBoi);
 
-        //Technically we dont want to be showing things
-        //from the complete list, we will eventually replace
-        //this with shop however for now we are working with complete list
-        completeList[0].SetSpriteVisible(true);
+        // Really what we want to do here is eventually
+        // replace the following lines of code with a function that
+        // randomly selects from complete list to then run these
+        // functions on the elements selected
+        teamList.Add(Obamna);
+        teamList.Add(Supreme_Emperor);
+        teamList.Add(CanadaBoi);
+
+        GameLogic.DisplayShopList(shopList);
+        GameLogic.DisplayTeamList(teamList);
     }
 
     void petLoader()

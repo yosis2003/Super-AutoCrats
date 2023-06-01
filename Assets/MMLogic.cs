@@ -21,9 +21,9 @@ public class MMLogic : MonoBehaviour
     {
         SceneManager.LoadScene("Single Player");
     }
-    public void startMultiplayer()
+    public void startMultiplayerShop()
     {
-        SceneManager.LoadScene("Multiplayer");
+        SceneManager.LoadScene("Multiplayer Shop");
     }
     public void startGallery()
     {
