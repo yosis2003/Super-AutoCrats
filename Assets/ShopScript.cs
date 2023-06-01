@@ -4,20 +4,24 @@ using UnityEngine;
 
 
 
-public class newShopScript : MonoBehaviour
+public class ShopScript : MonoBehaviour
 {
-    // Start is called before the first frame update
     List<Leader> team;
     List<Leader> shop;
-    GameObject Obama = GameObject.Find("Obama");
+    GameObject Obama;
     List<Leader> completeList = new List<Leader>();
 
-    Leader Obamna = new Leader("string", Obama, 10, 7);
-    
+    Leader Obamna;
+
+    void Start()
+    {
+        Obama = new GameObject("Obama");
+        Obamna = new Leader("Obama", Obama, 10, 7);
+    }
 
     void petLoader()
     {
 
     }
-
 }
+
