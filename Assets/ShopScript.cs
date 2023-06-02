@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Leader
 {
@@ -15,6 +16,7 @@ public class Leader
 
     public Leader(string leaderType, GameObject leaderObject, float initH, float initD)
     {
+        //attributes for our leaders are set here in this constructor
         name = leaderType;
         leaderRepresentative = leaderObject;
         initialHealth = initH;
@@ -24,6 +26,7 @@ public class Leader
     }
     public void SetSpriteVisible(bool visible)
     {
+        //if it finds an actual sprite under leaderRepresentative, it sets it visible
         SpriteRenderer spriteRenderer = leaderRepresentative.GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
@@ -74,23 +77,46 @@ public class ShopScript : MonoBehaviour
         // replace the following lines of code with a function that
         // randomly selects from complete list to then run these
         // functions on the elements selected
-        shopList.Add(Obamna);
-        shopList.Add(Supreme_Emperor);
-        shopList.Add(CanadaBoi);
 
+        ListAdder();
         // Really what we want to do here is eventually
         // replace the following lines of code with a function that
         // randomly selects from complete list to then run these
         // functions on the elements selected
+        /*
         teamList.Add(Obamna);
         teamList.Add(Supreme_Emperor);
         teamList.Add(CanadaBoi);
+        */
+        Displayer();
+        Purchase();
+    }
+    void Update()
+    {
 
+        Displayer();
+    }
+
+    public List<Leader> GetShopList()
+    {
+        return shopList;
+    }
+    public List<Leader> GetTeamList()
+    {
+        return teamList;
+    }
+    void ListAdder()
+    {
+        shopList.Add(Obamna);
+        shopList.Add(Supreme_Emperor);
+        shopList.Add(CanadaBoi);
+    }
+    void Displayer()
+    {
         GameLogic.DisplayShopList(shopList);
         GameLogic.DisplayTeamList(teamList);
     }
-
-    void petLoader()
+    void Purchase()
     {
 
     }
