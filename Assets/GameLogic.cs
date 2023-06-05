@@ -7,10 +7,12 @@ using UnityEngine.EventSystems;
 
 public class GameLogic : MonoBehaviour
 {
+    Button[] buttonArray = null;
 
     List<Leader> teamList = new List<Leader>();
     List<Leader> shopList = new List<Leader>();
     List<Leader> completeList = new List<Leader>();
+
 
     GameObject Obama;
     GameObject Xi;
@@ -28,9 +30,15 @@ public class GameLogic : MonoBehaviour
         // replace the following lines of code with a function that
         // randomly selects from complete list to then run these
         // functions on the elements selected
+        
+        ButtonArrayInit(ref buttonArray);
         Obama = GameObject.Find("Obama");
         Xi = GameObject.Find("Xi");
         Trudeau = GameObject.Find("Trudeau");
+
+
+
+
 
         // Really what we want to do here is eventually
         // replace the following lines of code with a function that
@@ -56,12 +64,14 @@ public class GameLogic : MonoBehaviour
         teamList.Add(CanadaBoi);
         */
         ListUpdater();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        LeaderPositioner();
+        ButtonDeleter();
     }
 
     // RETURNS
@@ -72,6 +82,31 @@ public class GameLogic : MonoBehaviour
     public List<Leader> GetTeamList()
     {
         return teamList;
+    }
+
+    public void LeaderPositioner()
+    {
+
+        for (int i = 0; i < buttonArray.Length; i++)
+        {
+            Vector3 buttonCoords;
+            buttonCoords = buttonArray[i].transform.position;
+            buttonCoords.y += 1.15f;
+            if (shopList[i] != null)
+            {
+                shopList[i].getLeaderRep().transform.position = buttonCoords;
+            }
+        }
+    }
+    public void ButtonDeleter()
+    {
+        for (int i = 0; i < buttonArray.Length; i++)
+        {
+            if (shopList[i] == null)
+            {
+                buttonArray[i].gameObject.SetActive(false);
+            }
+        }
     }
     // DELETES
     public void DeleteFromList(ref List<Leader> L, int index)
@@ -112,6 +147,10 @@ public class GameLogic : MonoBehaviour
                 LeaderList[i].getLeaderRep().transform.position = new Vector3(-4.0f + 2.5f * (i), 1.0f, 0.0f);
             }
         }
+    }
+    void ButtonArrayInit(ref Button[] buttonArray)
+    {
+        buttonArray = FindObjectsOfType<Button>();
     }
     void ListUpdater()
     {
