@@ -72,6 +72,8 @@ public class GameLogic : MonoBehaviour
     {
         LeaderPositioner();
         ButtonDeleter();
+        StatManager(shopList);
+        StatManager(teamList);
     }
 
     // RETURNS
@@ -206,7 +208,7 @@ public class GameLogic : MonoBehaviour
             }
         }
     }
-    public void MiscSpriteManager(List<Leader> L)
+    public void StatManager(List<Leader> L)
     { 
         //Shop List
         for(int i = 0; i < L.Count; i++)
@@ -216,7 +218,26 @@ public class GameLogic : MonoBehaviour
                 GameObject leaderRep = L[i].getLeaderRep();
                 if(leaderRep != null)
                 {
+                    GameObject statsPrefab = leaderRep.transform.Find("Stats")?.gameObject;
+                    if(statsPrefab != null)
+                    {
+                        GameObject HealthSprite = statsPrefab.transform.Find("Health Sprite")?.gameObject;
+                        GameObject AttackSprite = statsPrefab.transform.Find("Attack Sprite")?.gameObject;
+                        GameObject HealthText = statsPrefab.transform.Find("Health Text")?.gameObject;
+                        GameObject AttackText = statsPrefab.transform.Find("Attack Text")?.gameObject;
 
+                        TextMesh HPText = HealthText.GetComponent<TextMesh>();
+                        if(HPText != null)
+                        {
+                            HPText.text = L[i].getCurrHP().ToString();
+                        }
+
+                        TextMesh DMGText = AttackText.GetComponent<TextMesh>();
+                        if(DMGText != null)
+                        {
+                            DMGText.text = L[i].getCurrDMG().ToString();
+                        }
+                    }
                 }
             }
         }
@@ -262,6 +283,23 @@ public class Leader
     public void setLeaderRep(GameObject newLeaderRep)
     {
         leaderRepresentative = newLeaderRep;
+    }
+
+    public float getCurrDMG()
+    {
+        return currDamage;
+    }
+    public float getCurrHP()
+    {
+        return currHealth;
+    }
+    public float getInitDMG()
+    {
+        return initialDamage;
+    }
+    public float getInitHP()
+    {
+        return initialHealth;
     }
     /*
     // For Research Purposes
