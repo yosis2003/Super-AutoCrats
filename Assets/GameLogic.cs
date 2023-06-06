@@ -206,6 +206,22 @@ public class GameLogic : MonoBehaviour
             }
         }
     }
+    public void MiscSpriteManager(List<Leader> L)
+    { 
+        //Shop List
+        for(int i = 0; i < L.Count; i++)
+        {
+            if(L[i] != null)
+            {
+                GameObject leaderRep = L[i].getLeaderRep();
+                if(leaderRep != null)
+                {
+
+                }
+            }
+        }
+        //Team List
+    }
 }
 
 public class Leader
@@ -247,4 +263,25 @@ public class Leader
     {
         leaderRepresentative = newLeaderRep;
     }
+    /*
+    // For Research Purposes
+    public void SetHealthText()
+    {
+        GameObject health = leaderRepresentative.transform.Find("Stats Prefab/Health")?.gameObject;
+        if (health != null)
+        {
+            Text healthText = health.GetComponentInChildren<Text>();
+            SpriteRenderer healthSpriteRenderer = health.GetComponentInChildren<SpriteRenderer>();
+            if (healthText != null && healthSpriteRenderer != null)
+            {
+                healthText.text = currHealth.ToString(); // Set the text to the current health value
+
+                // Set the position of the text to match the position of the health sprite renderer within the Canvas
+                RectTransform healthTextRectTransform = healthText.GetComponent<RectTransform>();
+                RectTransform healthCanvasRectTransform = healthSpriteRenderer.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+                healthTextRectTransform.anchoredPosition = healthCanvasRectTransform.InverseTransformPoint(healthSpriteRenderer.transform.position);
+            }
+        }
+    }
+    */
 }
