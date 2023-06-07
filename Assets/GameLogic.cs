@@ -44,16 +44,18 @@ public class GameLogic : MonoBehaviour
         // replace the following lines of code with a function that
         // randomly selects from complete list to then run these
         // functions on the elements selected
+        //THESE ARE THE BASE INITIALIZATIONS WITH ALL THE STATS THAT WE NEED TO HAVE
         Obamna = new Leader("Obama", Obama, 10, 7);
         Supreme_Emperor = new Leader("Xi", Xi, 6, 12);
         CanadaBoi = new Leader("Trudeau", Trudeau, 4, 12);
 
+        CompleteListAdder();
         // Really what we want to do here is eventually
         // replace the following lines of code with a function that
         // randomly selects from complete list to then run these
         // functions on the elements selected
 
-        ListAdder();
+        ShopListRandomizer();
         // Really what we want to do here is eventually
         // replace the following lines of code with a function that
         // randomly selects from complete list to then run these
@@ -66,7 +68,12 @@ public class GameLogic : MonoBehaviour
         ListUpdater();
 
     }
-
+    public void CompleteListAdder()
+    {
+        completeList.Add(Obamna);
+        completeList.Add(Supreme_Emperor);
+        completeList.Add(CanadaBoi);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -118,6 +125,7 @@ public class GameLogic : MonoBehaviour
     }
 
     // Manual Initialization
+   
     void ListAdder()
     {
         shopList.Add(Obamna);
@@ -243,6 +251,30 @@ public class GameLogic : MonoBehaviour
         }
         //Team List
     }
+    public void ShopListRandomizer()
+    {
+        System.Random randInt = new System.Random();
+        
+        shopList.Clear();
+        for (int i = 0; i < 3; i++)
+        {
+            int value = randInt.Next(0, 3);
+            if (completeList[value].getName() == "Obama")
+            {
+                shopList.Add(new Leader("Obama", Obama, 10, 7));
+            }
+            else if(completeList[value].getName() == "Trudeau")
+            {
+                shopList.Add(new Leader("Trudeau", Trudeau, 4, 12));
+            }
+            else if (completeList[value].getName() == "Xi")
+            {
+                shopList.Add(new Leader("Xi", Xi, 6, 12));
+            }
+            Debug.Log(completeList[value].getName());
+        }
+
+    }
 }
 
 public class Leader
@@ -300,6 +332,10 @@ public class Leader
     public float getInitHP()
     {
         return initialHealth;
+    }
+    public string getName()
+    {
+        return name;
     }
     /*
     // For Research Purposes
