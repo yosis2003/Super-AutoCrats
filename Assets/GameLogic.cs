@@ -7,16 +7,16 @@ using UnityEngine.EventSystems;
 
 public class GameLogic : MonoBehaviour
 {
-    Button[] buttonArray = null;
+    Button[] buyButtonArray = null;
 
     List<Leader> teamList = new List<Leader>();
     List<Leader> shopList = new List<Leader>();
     List<Leader> completeList = new List<Leader>();
 
 
-    GameObject Obama;
-    GameObject Xi;
-    GameObject Trudeau;
+    //GameObject Obama;
+    //GameObject Xi;
+    //GameObject Trudeau;
 
 
     Leader Obamna;
@@ -25,56 +25,22 @@ public class GameLogic : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        // Really what we want to do here is eventually
-        // replace the following lines of code with a function that
-        // randomly selects from complete list to then run these
-        // functions on the elements selected
-        
-        ButtonArrayInit(ref buttonArray);
-        Obama = GameObject.Find("Obama");
-        Xi = GameObject.Find("Xi");
-        Trudeau = GameObject.Find("Trudeau");
-
-
-
-
-
-        // Really what we want to do here is eventually
-        // replace the following lines of code with a function that
-        // randomly selects from complete list to then run these
-        // functions on the elements selected
-        //THESE ARE THE BASE INITIALIZATIONS WITH ALL THE STATS THAT WE NEED TO HAVE
-        Obamna = new Leader("Obama", Obama, 10, 7);
-        Supreme_Emperor = new Leader("Xi", Xi, 6, 12);
-        CanadaBoi = new Leader("Trudeau", Trudeau, 4, 12);
+    {       
+        BuyButtonArrayInit(ref buyButtonArray);
 
         CompleteListAdder();
-        // Really what we want to do here is eventually
-        // replace the following lines of code with a function that
-        // randomly selects from complete list to then run these
-        // functions on the elements selected
-
-
 
         ShopListRandomizer();
-        //ListAdder();
 
-
-        // Really what we want to do here is eventually
-        // replace the following lines of code with a function that
-        // randomly selects from complete list to then run these
-        // functions on the elements selected
-        /*
-        teamList.Add(Obamna);
-        teamList.Add(Supreme_Emperor);
-        teamList.Add(CanadaBoi);
-        */
         ListUpdater();
 
     }
     public void CompleteListAdder()
     {
+        Obamna = new Leader("Obama", (GameObject)Instantiate(Resources.Load("Obama Prefab")), 10, 7);
+        Supreme_Emperor = new Leader("Xi", (GameObject)Instantiate(Resources.Load("Xi Prefab")), 6, 12);
+        CanadaBoi = new Leader("Trudeau", (GameObject)Instantiate(Resources.Load("Trudeau Prefab")), 4, 12);
+
         completeList.Add(Obamna);
         completeList.Add(Supreme_Emperor);
         completeList.Add(CanadaBoi);
@@ -104,42 +70,43 @@ public class GameLogic : MonoBehaviour
         for (int i = 0; i < shopList.Count; i++)
         {
             Vector3 buttonCoords;
-            buttonCoords = buttonArray[i].transform.position;
+            buttonCoords = buyButtonArray[i].transform.position;
             buttonCoords.y += 1.15f;
             if (shopList[i] != null)
             {
                 shopList[i].getLeaderRep().transform.position = buttonCoords;
-            }
+            }   
         }
     }
     public void ButtonDeleter()
     {
-        for (int i = 0; i < buttonArray.Length; i++)
+        for (int i = 0; i < buyButtonArray.Length; i++)
         {
             if (i >= shopList.Count)
             {
-                buttonArray[i].gameObject.SetActive(false);
+                buyButtonArray[i].gameObject.SetActive(false);
             }
-            else if(shopList[i] == null)
+            else if (shopList[i] == null)
             {
-                buttonArray[i].gameObject.SetActive(false);
+                    buyButtonArray[i].gameObject.SetActive(false);
             }
         }
     }
     // DELETES
     public void DeleteFromList(ref List<Leader> L, int index)
     {
-        L[index].SetSpriteVisible(false);
-        L[index] = null;
-    }
+        //L[index].SetSpriteVisible(false);
+        //L[index] = null;
+        Destroy(L[index].getLeaderRep());
 
-    // Manual Initialization
-   
-    void ListAdder()
+    }
+    public void ClearLeaders(ref List<Leader> L)
     {
-        shopList.Add(Obamna);
-        shopList.Add(Supreme_Emperor);
-        shopList.Add(CanadaBoi);
+        for (int i = 0; i < L.Count; i ++)
+        {
+            DeleteFromList(ref L, i);
+        }
+        L.Clear();
     }
 
     public static void UpdateShopList(List<Leader> LeaderList)
@@ -167,11 +134,13 @@ public class GameLogic : MonoBehaviour
             }
         }
     }
-    void ButtonArrayInit(ref Button[] buttonArray)
+    public void BuyButtonArrayInit(ref Button[] buyButtonArray)
     {
-        buttonArray = FindObjectsOfType<Button>();
+        buyButtonArray = Resources.FindObjectsOfTypeAll<Button>()
+            .Where(button => button.CompareTag("Buy Button"))
+            .ToArray();
     }
-    void ListUpdater()
+    public void ListUpdater()
     {
         GameLogic.UpdateShopList(shopList);
         GameLogic.UpdateTeamList(teamList);
@@ -260,14 +229,6 @@ public class GameLogic : MonoBehaviour
         }
         //Team List
     }
-    /*
-    public void RandTest()
-    {
-        System.Random randInt = new System.Random();
-        int value = randInt.Next(0, 3);
-        Debug.Log(value.ToString());
-    }
-    */
     public void ShopListRandomizer()
     {
         System.Random randInt = new System.Random();
@@ -289,6 +250,31 @@ public class GameLogic : MonoBehaviour
                 shopList.Add(new Leader("Xi", (GameObject)Instantiate(Resources.Load("Xi Prefab")), 6, 12));
             }
         }
+    }
+    public void StartNextRound()
+    {
+        Roll();
+    }
+
+    public void Roll()
+    {
+        ClearLeaders(ref shopList);
+        // Sets all buttons to active
+        buyButtonArray = Resources.FindObjectsOfTypeAll<Button>()
+            .Where(button => button.CompareTag("Buy Button"))
+            .ToArray();
+
+        for (int i = 0; i < buyButtonArray.Length; i++)
+        {
+            if (buyButtonArray[i].gameObject.activeSelf == false)
+            {
+                buyButtonArray[i].gameObject.SetActive(true);
+            }
+        }
+        // Randomizes the Shop
+        ShopListRandomizer();
+        // Displays all the sprites and moves everything to the correct location
+        ListUpdater();
     }
 }
 
@@ -352,25 +338,4 @@ public class Leader
     {
         return name;
     }
-    /*
-    // For Research Purposes
-    public void SetHealthText()
-    {
-        GameObject health = leaderRepresentative.transform.Find("Stats Prefab/Health")?.gameObject;
-        if (health != null)
-        {
-            Text healthText = health.GetComponentInChildren<Text>();
-            SpriteRenderer healthSpriteRenderer = health.GetComponentInChildren<SpriteRenderer>();
-            if (healthText != null && healthSpriteRenderer != null)
-            {
-                healthText.text = currHealth.ToString(); // Set the text to the current health value
-
-                // Set the position of the text to match the position of the health sprite renderer within the Canvas
-                RectTransform healthTextRectTransform = healthText.GetComponent<RectTransform>();
-                RectTransform healthCanvasRectTransform = healthSpriteRenderer.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
-                healthTextRectTransform.anchoredPosition = healthCanvasRectTransform.InverseTransformPoint(healthSpriteRenderer.transform.position);
-            }
-        }
-    }
-    */
 }
