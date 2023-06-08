@@ -55,7 +55,12 @@ public class GameLogic : MonoBehaviour
         // randomly selects from complete list to then run these
         // functions on the elements selected
 
+
+
         ShopListRandomizer();
+        //ListAdder();
+
+
         // Really what we want to do here is eventually
         // replace the following lines of code with a function that
         // randomly selects from complete list to then run these
@@ -96,7 +101,7 @@ public class GameLogic : MonoBehaviour
     public void LeaderPositioner()
     {
 
-        for (int i = 0; i < buttonArray.Length; i++)
+        for (int i = 0; i < shopList.Count; i++)
         {
             Vector3 buttonCoords;
             buttonCoords = buttonArray[i].transform.position;
@@ -111,7 +116,11 @@ public class GameLogic : MonoBehaviour
     {
         for (int i = 0; i < buttonArray.Length; i++)
         {
-            if (shopList[i] == null)
+            if (i >= shopList.Count)
+            {
+                buttonArray[i].gameObject.SetActive(false);
+            }
+            else if(shopList[i] == null)
             {
                 buttonArray[i].gameObject.SetActive(false);
             }
@@ -251,6 +260,36 @@ public class GameLogic : MonoBehaviour
         }
         //Team List
     }
+    /*
+    public void RandTest()
+    {
+        System.Random randInt = new System.Random();
+        int value = randInt.Next(0, 3);
+        Debug.Log(value.ToString());
+    }
+    */
+    public void ShopListRandomizer()
+    {
+        // WAI
+        shopList.Clear();
+        // System.Random randInt = new System.Random();
+        // (random initialization thing)
+        // int value = randInt.Next(0, 3);
+        // (Generates a random int (0,1,2))
+        /*
+        int value = 0;
+        if (completeList[value].getName() == "Obama")
+        {
+            Debug.Log("IT WORKED!!!");
+        }
+        */
+
+
+        // ?
+        shopList.Add(new Leader("Obama", Obama, 10, 7));
+        shopList.Add(new Leader("Obama", Obama, 10, 7));
+    }
+    /*
     public void ShopListRandomizer()
     {
         System.Random randInt = new System.Random();
@@ -275,6 +314,7 @@ public class GameLogic : MonoBehaviour
         }
 
     }
+    */
 }
 
 public class Leader
