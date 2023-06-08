@@ -270,51 +270,26 @@ public class GameLogic : MonoBehaviour
     */
     public void ShopListRandomizer()
     {
-        // WAI
-        shopList.Clear();
-        // System.Random randInt = new System.Random();
-        // (random initialization thing)
-        // int value = randInt.Next(0, 3);
-        // (Generates a random int (0,1,2))
-        /*
-        int value = 0;
-        if (completeList[value].getName() == "Obama")
-        {
-            Debug.Log("IT WORKED!!!");
-        }
-        */
-
-
-        // ?
-        shopList.Add(new Leader("Obama", Obama, 10, 7));
-        shopList.Add(new Leader("Obama", Obama, 10, 7));
-    }
-    /*
-    public void ShopListRandomizer()
-    {
         System.Random randInt = new System.Random();
-        
+
         shopList.Clear();
         for (int i = 0; i < 3; i++)
         {
             int value = randInt.Next(0, 3);
             if (completeList[value].getName() == "Obama")
             {
-                shopList.Add(new Leader("Obama", Obama, 10, 7));
+                shopList.Add(new Leader("Obama", (GameObject)Instantiate(Resources.Load("Obama Prefab")), 10, 7));
             }
-            else if(completeList[value].getName() == "Trudeau")
+            else if (completeList[value].getName() == "Trudeau")
             {
-                shopList.Add(new Leader("Trudeau", Trudeau, 4, 12));
+                shopList.Add(new Leader("Trudeau", (GameObject)Instantiate(Resources.Load("Trudeau Prefab")), 4, 12));
             }
             else if (completeList[value].getName() == "Xi")
             {
-                shopList.Add(new Leader("Xi", Xi, 6, 12));
+                shopList.Add(new Leader("Xi", (GameObject)Instantiate(Resources.Load("Xi Prefab")), 6, 12));
             }
-            Debug.Log(completeList[value].getName());
         }
-
     }
-    */
 }
 
 public class Leader
