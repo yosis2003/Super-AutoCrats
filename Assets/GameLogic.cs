@@ -4,10 +4,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class GameLogic : MonoBehaviour
 {
     Button[] buyButtonArray = null;
+    int gold = 10;
+
 
     List<Leader> teamList = new List<Leader>();
     List<Leader> shopList = new List<Leader>();
@@ -25,7 +28,8 @@ public class GameLogic : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {       
+    {
+        ResetGold();
         BuyButtonArrayInit(ref buyButtonArray);
 
         CompleteListAdder();
@@ -78,6 +82,7 @@ public class GameLogic : MonoBehaviour
             }   
         }
     }
+
     public void ButtonDeleter()
     {
         for (int i = 0; i < buyButtonArray.Length; i++)
@@ -148,19 +153,24 @@ public class GameLogic : MonoBehaviour
     }
     public void BuyClicker()
     {
-        string clickedName = EventSystem.current.currentSelectedGameObject.name;
-        int buttonIndex = int.Parse(clickedName.Replace("Buy", ""));
-
-        if (buttonIndex < shopList.Count && shopList[buttonIndex] != null)
+        if (gold > 0) 
         {
-            teamList.Add(shopList[buttonIndex]);
-            if (shopList[buttonIndex] != null)
+            string clickedName = EventSystem.current.currentSelectedGameObject.name;
+            int buttonIndex = int.Parse(clickedName.Replace("Buy", ""));
+            if (buttonIndex < shopList.Count && shopList[buttonIndex] != null)
             {
-                shopList[buttonIndex].SetSpriteVisible(false);
-                shopList[buttonIndex] = null;
+                teamList.Add(shopList[buttonIndex]);
+                if (shopList[buttonIndex] != null)
+                {
+                    shopList[buttonIndex].SetSpriteVisible(false);
+                    shopList[buttonIndex] = null;
+                }
+                gold -= 3;
+                UpdateGold();
+                ListUpdater();
             }
-            ListUpdater();
         }
+
     }
     public void StatManager(List<Leader> L)
     { 
@@ -222,27 +232,44 @@ public class GameLogic : MonoBehaviour
     public void StartNextRound()
     {
         Roll();
+        ResetGold();
     }
 
     public void Roll()
     {
-        ClearLeaders(ref shopList);
-        // Sets all buttons to active
-        buyButtonArray = Resources.FindObjectsOfTypeAll<Button>()
-            .Where(button => button.CompareTag("Buy Button"))
-            .ToArray();
-
-        for (int i = 0; i < buyButtonArray.Length; i++)
+        if (gold > 0)
         {
-            if (buyButtonArray[i].gameObject.activeSelf == false)
+            gold -= 1;
+            UpdateGold();
+            ClearLeaders(ref shopList);
+            // Sets all buttons to active
+            buyButtonArray = Resources.FindObjectsOfTypeAll<Button>()
+                .Where(button => button.CompareTag("Buy Button"))
+                .ToArray();
+
+            for (int i = 0; i < buyButtonArray.Length; i++)
             {
-                buyButtonArray[i].gameObject.SetActive(true);
+                if (buyButtonArray[i].gameObject.activeSelf == false)
+                {
+                    buyButtonArray[i].gameObject.SetActive(true);
+                }
             }
+            // Randomizes the Shop
+            ShopListRandomizer();
+            // Displays all the sprites and moves everything to the correct location
+            ListUpdater();
         }
-        // Randomizes the Shop
-        ShopListRandomizer();
-        // Displays all the sprites and moves everything to the correct location
-        ListUpdater();
+     
+    }
+    public void UpdateGold()
+    {
+        
+        GameObject.Find("Gold").GetComponent<TextMesh>().text = gold.ToString();
+    }
+    public void ResetGold()
+    {
+        gold = 10;
+        UpdateGold();
     }
 }
 
