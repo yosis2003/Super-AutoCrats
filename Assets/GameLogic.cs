@@ -95,10 +95,11 @@ public class GameLogic : MonoBehaviour
     // DELETES
     public void DeleteFromList(ref List<Leader> L, int index)
     {
-        //L[index].SetSpriteVisible(false);
-        //L[index] = null;
-        Destroy(L[index].getLeaderRep());
-
+        if(L[index] != null)
+        {
+            Destroy(L[index].getLeaderRep());
+            L[index] = null;
+        }
     }
     public void ClearLeaders(ref List<Leader> L)
     {
@@ -145,53 +146,20 @@ public class GameLogic : MonoBehaviour
         GameLogic.UpdateShopList(shopList);
         GameLogic.UpdateTeamList(teamList);
     }
-
     public void BuyClicker()
     {
-        string ClickedName = EventSystem.current.currentSelectedGameObject.name;
-        if (ClickedName == "Buy0"){
-            if (shopList[0] != null)
-            {
-                teamList.Add(shopList[0]);
-                DeleteFromList(ref shopList, 0);
-                ListUpdater();
-            }
-        }
-        else if(ClickedName == "Buy1")
+        string clickedName = EventSystem.current.currentSelectedGameObject.name;
+        int buttonIndex = int.Parse(clickedName.Replace("Buy", ""));
+
+        if (buttonIndex < shopList.Count && shopList[buttonIndex] != null)
         {
-            if (shopList[1] != null)
+            teamList.Add(shopList[buttonIndex]);
+            if (shopList[buttonIndex] != null)
             {
-                teamList.Add(shopList[1]);
-                DeleteFromList(ref shopList, 1);
-                ListUpdater();
+                shopList[buttonIndex].SetSpriteVisible(false);
+                shopList[buttonIndex] = null;
             }
-        }
-        else if (ClickedName == "Buy2")
-        {
-            if (shopList[2] != null)
-            {
-                teamList.Add(shopList[2]);
-                DeleteFromList(ref shopList, 2);
-                ListUpdater();
-            }
-        }
-        else if (ClickedName == "Buy3")
-        {
-            if (shopList[3] != null)
-            {
-                teamList.Add(shopList[3]);
-                DeleteFromList(ref shopList, 3);
-                ListUpdater();
-            }
-        }
-        else if (ClickedName == "Buy4")
-        {
-            if (shopList[4] != null)
-            {
-                teamList.Add(shopList[4]);
-                DeleteFromList(ref shopList, 4);
-                ListUpdater();
-            }
+            ListUpdater();
         }
     }
     public void StatManager(List<Leader> L)
