@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Buy Button
+  - Sell Button
   layers:
   - Default
   - TransparentFX

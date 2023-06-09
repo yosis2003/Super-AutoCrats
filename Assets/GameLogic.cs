@@ -9,6 +9,7 @@ using TMPro;
 public class GameLogic : MonoBehaviour
 {
     Button[] buyButtonArray = null;
+    Button[] sellButtonArray = null;
     int gold = 10;
 
 
@@ -31,6 +32,7 @@ public class GameLogic : MonoBehaviour
     {
         ResetGold();
         BuyButtonArrayInit(ref buyButtonArray);
+        SellButtonInit();
 
         CompleteListAdder();
 
@@ -155,8 +157,10 @@ public class GameLogic : MonoBehaviour
     {
         if (gold > 0) 
         {
+            
             string clickedName = EventSystem.current.currentSelectedGameObject.name;
             int buttonIndex = int.Parse(clickedName.Replace("Buy", ""));
+            
             if (buttonIndex < shopList.Count && shopList[buttonIndex] != null)
             {
                 teamList.Add(shopList[buttonIndex]);
@@ -169,6 +173,7 @@ public class GameLogic : MonoBehaviour
                 UpdateGold();
                 ListUpdater();
             }
+            CreateSellButton();
         }
 
     }
@@ -261,9 +266,9 @@ public class GameLogic : MonoBehaviour
         }
      
     }
+
     public void UpdateGold()
     {
-        
         GameObject.Find("Gold").GetComponent<TextMesh>().text = gold.ToString();
     }
     public void ResetGold()
@@ -271,6 +276,41 @@ public class GameLogic : MonoBehaviour
         gold = 10;
         UpdateGold();
     }
+    public void Seller()
+    {
+
+    }
+    public void CreateSellButton()
+    {
+        sellButtonArray = Resources.FindObjectsOfTypeAll<Button>()
+    .Where(button => button.CompareTag("Sell Button"))
+    .ToArray();
+
+        for (int i = 0; i < teamList.Count; i++)
+        {
+            if (teamList[i] != null)
+            {
+               sellButtonArray[i].gameObject.SetActive(true);
+               Vector3 buttonCoords = teamList[i].getLeaderRep().transform.position;
+               buttonCoords.y -= 1.15f;
+               sellButtonArray[i].transform.position = buttonCoords;
+            }
+            else
+                sellButtonArray[i].gameObject.SetActive(false);
+            }
+    }
+    public void SellButtonInit()
+    {
+        sellButtonArray = Resources.FindObjectsOfTypeAll<Button>()
+.Where(button => button.CompareTag("Sell Button"))
+.ToArray();
+        foreach (Button sellButton in sellButtonArray)
+        {
+            sellButton.gameObject.SetActive(false);
+        }
+
+    }
+
 }
 
 public class Leader
