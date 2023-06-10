@@ -10,6 +10,8 @@ public class GameLogic : MonoBehaviour
 {
     Button[] buyButtonArray = null;
     Button[] sellButtonArray = null;
+    Button[] swapButtonArray = null;
+    Leader[] swappingArray = null;
     int gold = 10;
 
 
@@ -33,6 +35,7 @@ public class GameLogic : MonoBehaviour
         ResetGold();
         BuyButtonArrayInit(ref buyButtonArray);
         SellButtonInit();
+        SwapButtonInit();
 
         CompleteListAdder();
 
@@ -58,6 +61,7 @@ public class GameLogic : MonoBehaviour
         ButtonDeleter();
         StatManager(shopList);
         StatManager(teamList);
+        CreateSellButton();
     }
 
     // RETURNS
@@ -81,7 +85,7 @@ public class GameLogic : MonoBehaviour
             if (shopList[i] != null)
             {
                 shopList[i].getLeaderRep().transform.position = buttonCoords;
-            }   
+            }
         }
     }
 
@@ -95,14 +99,14 @@ public class GameLogic : MonoBehaviour
             }
             else if (shopList[i] == null)
             {
-                    buyButtonArray[i].gameObject.SetActive(false);
+                buyButtonArray[i].gameObject.SetActive(false);
             }
         }
     }
     // DELETES
     public void DeleteFromList(ref List<Leader> L, int index)
     {
-        if(L[index] != null)
+        if (L[index] != null)
         {
             Destroy(L[index].getLeaderRep());
             L[index] = null;
@@ -110,7 +114,7 @@ public class GameLogic : MonoBehaviour
     }
     public void ClearLeaders(ref List<Leader> L)
     {
-        for (int i = 0; i < L.Count; i ++)
+        for (int i = 0; i < L.Count; i++)
         {
             DeleteFromList(ref L, i);
         }
@@ -155,12 +159,12 @@ public class GameLogic : MonoBehaviour
     }
     public void BuyClicker()
     {
-        if (gold > 0) 
+        if (gold > 0)
         {
-            
+
             string clickedName = EventSystem.current.currentSelectedGameObject.name;
             int buttonIndex = int.Parse(clickedName.Replace("Buy", ""));
-            
+
             if (buttonIndex < shopList.Count && shopList[buttonIndex] != null)
             {
                 teamList.Add(shopList[buttonIndex]);
@@ -178,17 +182,17 @@ public class GameLogic : MonoBehaviour
 
     }
     public void StatManager(List<Leader> L)
-    { 
+    {
         //Shop List
-        for(int i = 0; i < L.Count; i++)
+        for (int i = 0; i < L.Count; i++)
         {
-            if(L[i] != null)
+            if (L[i] != null)
             {
                 GameObject leaderRep = L[i].getLeaderRep();
-                if(leaderRep != null)
+                if (leaderRep != null)
                 {
                     GameObject statsPrefab = leaderRep.transform.Find("Stats")?.gameObject;
-                    if(statsPrefab != null)
+                    if (statsPrefab != null)
                     {
                         GameObject HealthSprite = statsPrefab.transform.Find("Health Sprite")?.gameObject;
                         GameObject AttackSprite = statsPrefab.transform.Find("Attack Sprite")?.gameObject;
@@ -196,13 +200,13 @@ public class GameLogic : MonoBehaviour
                         GameObject AttackText = statsPrefab.transform.Find("Attack Text")?.gameObject;
 
                         TextMesh HPText = HealthText.GetComponent<TextMesh>();
-                        if(HPText != null)
+                        if (HPText != null)
                         {
                             HPText.text = L[i].getCurrHP().ToString();
                         }
 
                         TextMesh DMGText = AttackText.GetComponent<TextMesh>();
-                        if(DMGText != null)
+                        if (DMGText != null)
                         {
                             DMGText.text = L[i].getCurrDMG().ToString();
                         }
@@ -216,7 +220,7 @@ public class GameLogic : MonoBehaviour
     {
         System.Random randInt = new System.Random();
 
-        shopList.Clear();
+        shopList.Clear(); 
         for (int i = 0; i < 3; i++)
         {
             int value = randInt.Next(0, 3);
@@ -264,7 +268,7 @@ public class GameLogic : MonoBehaviour
             // Displays all the sprites and moves everything to the correct location
             ListUpdater();
         }
-     
+
     }
 
     public void UpdateGold()
@@ -276,9 +280,24 @@ public class GameLogic : MonoBehaviour
         gold = 10;
         UpdateGold();
     }
-    public void Seller()
+    public void SellClicker ()
     {
+        sellButtonArray = FindObjectsOfType<Button>()
+        .Where(button => button.CompareTag("Sell Button"))
+        .ToArray();
+        string clickedName = EventSystem.current.currentSelectedGameObject.name;
+        int buttonIndex = int.Parse(clickedName.Replace("Sell", ""));
 
+        if (buttonIndex < teamList.Count && teamList[buttonIndex] != null)
+        {
+            Destroy(teamList[buttonIndex].getLeaderRep());
+            //teamList[buttonIndex] = null;
+            teamList.RemoveAt(buttonIndex);
+            gold += 1;
+            UpdateGold();
+            sellButtonArray[buttonIndex].gameObject.SetActive(false);
+        }
+        sellButtonArray[sellButtonArray.Length - 1].gameObject.SetActive(false);
     }
     public void CreateSellButton()
     {
@@ -290,24 +309,66 @@ public class GameLogic : MonoBehaviour
         {
             if (teamList[i] != null)
             {
-               sellButtonArray[i].gameObject.SetActive(true);
-               Vector3 buttonCoords = teamList[i].getLeaderRep().transform.position;
-               buttonCoords.y -= 1.15f;
-               sellButtonArray[i].transform.position = buttonCoords;
+                sellButtonArray[i].gameObject.SetActive(true);
+                Vector3 buttonCoords = teamList[i].getLeaderRep().transform.position;
+                buttonCoords.y -= 1.15f;
+                buttonCoords.x -= 0.3f;
+                sellButtonArray[i].transform.position = buttonCoords;
             }
             else
                 sellButtonArray[i].gameObject.SetActive(false);
-            }
+        }
     }
     public void SellButtonInit()
     {
         sellButtonArray = Resources.FindObjectsOfTypeAll<Button>()
-.Where(button => button.CompareTag("Sell Button"))
-.ToArray();
+        .Where(button => button.CompareTag("Sell Button"))
+        .ToArray();
         foreach (Button sellButton in sellButtonArray)
         {
             sellButton.gameObject.SetActive(false);
         }
+
+    }
+    public void CreateSwapButton()
+    {
+        swapButtonArray = Resources.FindObjectsOfTypeAll<Button>()
+    .Where(button => button.CompareTag("Swap Button"))
+    .ToArray();
+
+        for (int i = 0; i < teamList.Count; i++)
+        {
+            if (teamList[i] != null)
+            {
+                swapButtonArray[i].gameObject.SetActive(true);
+                Vector3 buttonCoords = teamList[i].getLeaderRep().transform.position;
+                buttonCoords.y -= 1.15f;
+                buttonCoords.x += 0.3f;
+                swapButtonArray[i].transform.position = buttonCoords;
+            }
+            else
+                swapButtonArray[i].gameObject.SetActive(false);
+        }
+    }
+    public void SwapButtonInit()
+    {
+        swapButtonArray = Resources.FindObjectsOfTypeAll<Button>()
+        .Where(button => button.CompareTag("Swap Button"))
+        .ToArray();
+        foreach (Button swapButton in swapButtonArray)
+        {
+            swapButton.gameObject.SetActive(false);
+        }
+
+    }
+
+    public void SwapClicker()
+    {
+
+    }
+
+    public void SwapListener()
+    {
 
     }
 

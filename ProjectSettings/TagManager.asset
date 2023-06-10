@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Buy Button
   - Sell Button
+  - Swap Button
   layers:
   - Default
   - TransparentFX
