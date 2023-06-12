@@ -383,7 +383,20 @@ public class GameLogic : MonoBehaviour
     public void SwapClicker()
     {
         string clickedName = EventSystem.current.currentSelectedGameObject.name;
-        int buttonIndex = int.Parse(clickedName.Replace("Swap", ""));
+        int buttonIndex = 0; //= int.Parse(clickedName.Replace("Swap", ""));
+
+        if (clickedName == "Swap0")
+        {
+            buttonIndex = 0;
+        }
+        else if (clickedName == "Swap1")
+        {
+            buttonIndex = 1;
+        }
+        else if (clickedName == "Swap2")
+        {
+            buttonIndex = 2;
+        }
 
         if (buttonIndex < teamList.Count && teamList[buttonIndex] != null)
         {
@@ -397,8 +410,8 @@ public class GameLogic : MonoBehaviour
                 swappingArray[1] = teamList[buttonIndex];
                 if (teamList[prevSwapIndex].getName() == teamList[buttonIndex].getName())
                 {
-                    teamList[buttonIndex].incHP();
-                    teamList[buttonIndex].incDMG();
+                    teamList[buttonIndex].incHP(); //works  
+                    teamList[buttonIndex].incDMG(); //works
 
                     sellButtonArray = FindObjectsOfType<Button>()
                     .Where(button => button.CompareTag("Sell Button"))
