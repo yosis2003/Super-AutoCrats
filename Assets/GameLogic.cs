@@ -434,6 +434,7 @@ public class GameLogic : MonoBehaviour
                     Leader tempLeader = teamList[buttonIndex];
                     teamList[buttonIndex] = teamList[prevSwapIndex];
                     teamList[prevSwapIndex] = tempLeader;
+                    ListUpdater();
                 }
                 swappingArray[0] = null;
                 swappingArray[1] = null;
