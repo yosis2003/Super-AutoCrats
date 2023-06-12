@@ -15,16 +15,9 @@ public class GameLogic : MonoBehaviour
     int gold = 10;
     static int prevSwapIndex = 0;
 
-
     List<Leader> teamList = new List<Leader>();
     List<Leader> shopList = new List<Leader>();
     List<Leader> completeList = new List<Leader>();
-
-
-    //GameObject Obama;
-    //GameObject Xi;
-    //GameObject Trudeau;
-
 
     Leader Obamna;
     Leader Supreme_Emperor;
@@ -37,13 +30,9 @@ public class GameLogic : MonoBehaviour
         BuyButtonArrayInit(ref buyButtonArray);
         SellButtonInit();
         SwapButtonInit();
-
         CompleteListAdder();
-
         ShopListRandomizer();
-
         ListUpdater();
-
     }
     // Update is called once per frame
     void Update()
@@ -115,7 +104,6 @@ public class GameLogic : MonoBehaviour
             }
         }
     }
-    // DELETES
     public void DeleteFromList(ref List<Leader> L, int index)
     {
         if (L[index] != null)
@@ -145,7 +133,6 @@ public class GameLogic : MonoBehaviour
             }
         }
     }
-
     public static void UpdateTeamList(List<Leader> LeaderList)
     {
         for (int i = 0; i < LeaderList.Count(); i++)
@@ -196,7 +183,6 @@ public class GameLogic : MonoBehaviour
     }
     public void StatManager(List<Leader> L)
     {
-        //Shop List
         for (int i = 0; i < L.Count; i++)
         {
             if (L[i] != null)
@@ -227,7 +213,6 @@ public class GameLogic : MonoBehaviour
                 }
             }
         }
-        //Team List
     }
     public void ShopListRandomizer()
     {
@@ -283,7 +268,6 @@ public class GameLogic : MonoBehaviour
         }
 
     }
-
     public void UpdateGold()
     {
         GameObject.Find("Gold").GetComponent<TextMesh>().text = gold.ToString();
@@ -307,7 +291,6 @@ public class GameLogic : MonoBehaviour
         if (buttonIndex < teamList.Count && teamList[buttonIndex] != null)
         {
             Destroy(teamList[buttonIndex].getLeaderRep());
-            //teamList[buttonIndex] = null;
             teamList.RemoveAt(buttonIndex);
             gold += 1;
             UpdateGold();
@@ -322,7 +305,6 @@ public class GameLogic : MonoBehaviour
         sellButtonArray = Resources.FindObjectsOfTypeAll<Button>()
     .Where(button => button.CompareTag("Sell Button"))
     .ToArray();
-
         for (int i = 0; i < teamList.Count; i++)
         {
             if (teamList[i] != null)
@@ -346,7 +328,6 @@ public class GameLogic : MonoBehaviour
         {
             sellButton.gameObject.SetActive(false);
         }
-
     }
     public void CreateSwapButton()
     {
@@ -377,26 +358,12 @@ public class GameLogic : MonoBehaviour
         {
             swapButton.gameObject.SetActive(false);
         }
-
     }
 
     public void SwapClicker()
     {
         string clickedName = EventSystem.current.currentSelectedGameObject.name;
-        int buttonIndex = 0; //= int.Parse(clickedName.Replace("Swap", ""));
-
-        if (clickedName == "Swap0")
-        {
-            buttonIndex = 0;
-        }
-        else if (clickedName == "Swap1")
-        {
-            buttonIndex = 1;
-        }
-        else if (clickedName == "Swap2")
-        {
-            buttonIndex = 2;
-        }
+        int buttonIndex =  int.Parse(clickedName.Replace("Swap", ""));
 
         if (buttonIndex < teamList.Count && teamList[buttonIndex] != null)
         {
@@ -410,8 +377,8 @@ public class GameLogic : MonoBehaviour
                 swappingArray[1] = teamList[buttonIndex];
                 if (teamList[prevSwapIndex].getName() == teamList[buttonIndex].getName())
                 {
-                    teamList[buttonIndex].incHP(); //works  
-                    teamList[buttonIndex].incDMG(); //works
+                    teamList[buttonIndex].incHP(); 
+                    teamList[buttonIndex].incDMG();
 
                     sellButtonArray = FindObjectsOfType<Button>()
                     .Where(button => button.CompareTag("Sell Button"))
@@ -421,7 +388,6 @@ public class GameLogic : MonoBehaviour
                     .ToArray();
 
                     Destroy(teamList[prevSwapIndex].getLeaderRep());
-                    //teamList[buttonIndex] = null;
                     teamList.RemoveAt(prevSwapIndex);
                     sellButtonArray[prevSwapIndex].gameObject.SetActive(false);
                     swapButtonArray[prevSwapIndex].gameObject.SetActive(false);
@@ -472,7 +438,6 @@ public class Leader
             spriteRenderer.enabled = visible;
         }
     }
-
     public GameObject getLeaderRep()
     {
         return leaderRepresentative;
